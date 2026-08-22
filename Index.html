@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>TARGVerse — Explore Everything</title>
+
+<!-- Font Awesome Icons -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#080b14;
+    color:white;
+    min-height:100vh;
+    padding-bottom:90px;
+}
+
+/* HEADER */
+
+header{
+    padding:25px 20px 15px;
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(8,11,20,.85);
+    backdrop-filter:blur(15px);
+}
+
+.logo{
+    font-size:28px;
+    font-weight:bold;
+    letter-spacing:2px;
+    margin-bottom:18px;
+}
+
+.logo span{
+    color:#6c63ff;
+}
+
+/* SEARCH */
+
+.search-box{
+    position:relative;
+}
+
+.search-box input{
+    width:100%;
+    padding:15px 55px 15px 18px;
+    border:none;
+    outline:none;
+    border-radius:15px;
+    background:#151a2a;
+    color:white;
+    font-size:15px;
+}
+
+.search-box button{
+    position:absolute;
+    right:5px;
+    top:5px;
+    width:45px;
+    height:45px;
+    border:none;
+    border-radius:12px;
+    background:#6c63ff;
+    color:white;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.search-box button:hover{
+    transform:scale(1.08);
+}
+
+.search-box input:focus{
+    box-shadow:0 0 0 2px #6c63ff;
+}
+
+.search-box i{
+    position:absolute;
+    right:18px;
+    top:50%;
+    transform:translateY(-50%);
+    color:#777;
+}
+
+/* HERO */
+
+.hero{
+    margin:20px;
+    padding:30px 22px;
+    border-radius:25px;
+    background:linear-gradient(135deg,#171b35,#251d52);
+    position:relative;
+    overflow:hidden;
+}
+
+.hero:before{
+    content:"";
+    position:absolute;
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    background:#6c63ff;
+    filter:blur(70px);
+    opacity:.35;
+    right:-60px;
+    top:-60px;
+}
+
+.hero h1{
+    font-size:30px;
+    margin-bottom:10px;
+    position:relative;
+}
+
+.hero p{
+    color:#aaa;
+    line-height:1.6;
+    position:relative;
+}
+
+/* CONTENT */
+
+main{
+    padding:0 20px;
+}
+
+.tab-content{
+    display:none;
+    animation:slideIn .45s ease;
+}
+
+.tab-content.active{
+    display:block;
+}
+
+@keyframes slideIn{
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.section-title{
+    margin:25px 0 15px;
+    font-size:20px;
+}
+
+/* CARDS */
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.card{
+    background:#111625;
+    border-radius:18px;
+    padding:18px;
+    transition:.35s;
+    border:1px solid transparent;
+}
+
+.card:hover{
+    transform:translateY(-7px);
+    border-color:#6c63ff;
+    box-shadow:0 10px 30px rgba(108,99,255,.15);
+}
+
+.card-icon{
+    width:50px;
+    height:50px;
+    border-radius:15px;
+    background:#1d2140;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+    color:#7d75ff;
+    margin-bottom:15px;
+}
+
+.card h3{
+    font-size:16px;
+    margin-bottom:7px;
+}
+
+.card p{
+    font-size:13px;
+    color:#888;
+    line-height:1.5;
+}
+
+/* BOTTOM NAVIGATION */
+
+.bottom-nav{
+    position:fixed;
+    bottom:15px;
+    left:50%;
+    transform:translateX(-50%);
+    width:calc(100% - 25px);
+    max-width:600px;
+    height:70px;
+    background:rgba(20,24,40,.92);
+    backdrop-filter:blur(20px);
+    border:1px solid #252b43;
+    border-radius:25px;
+    display:flex;
+    align-items:center;
+    justify-content:space-around;
+    z-index:100;
+    box-shadow:0 10px 40px rgba(0,0,0,.4);
+}
+
+.nav-btn{
+    position:relative;
+    width:65px;
+    height:58px;
+    border:none;
+    background:none;
+    color:#777;
+    cursor:pointer;
+    border-radius:18px;
+    transition:.35s;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
+}
+
+.nav-btn i{
+    font-size:20px;
+    transition:.35s;
+}
+
+.nav-btn span{
+    font-size:10px;
+    transition:.35s;
+}
+
+.nav-btn:hover{
+    color:#aaa;
+    transform:translateY(-3px);
+}
+
+.nav-btn.active{
+    color:white;
+}
+
+.nav-btn.active i{
+    color:#7d75ff;
+    transform:translateY(-3px) scale(1.15);
+}
+
+.nav-btn.active:before{
+    content:"";
+    position:absolute;
+    width:45px;
+    height:45px;
+    border-radius:15px;
+    background:#6c63ff20;
+    z-index:-1;
+    animation:pop .35s ease;
+}
+
+@keyframes pop{
+    from{
+        transform:scale(.5);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+/* SEARCH MESSAGE */
+
+.no-results{
+    display:none;
+    text-align:center;
+    padding:50px 10px;
+    color:#777;
+}
+
+.no-results i{
+    font-size:40px;
+    margin-bottom:15px;
+    color:#6c63ff;
+}
+
+/* DESKTOP */
+
+@media(min-width:700px){
+
+    .cards{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    main{
+        max-width:1000px;
+        margin:auto;
+    }
+
+    header{
+        padding-left:calc((100% - 960px)/2);
+        padding-right:calc((100% - 960px)/2);
+    }
+
+    .hero{
+        max-width:960px;
+        margin:25px auto;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        TARG<span>Verse</span>
+    </div>
+
+    <form class="search-box" action="https://www.google.com/search" method="GET">
+
+    <input
+        type="text"
+        name="q"
+        placeholder="Search here..."
+        autocomplete="off"
+        required>
+
+    <button type="submit">
+        <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+
+    </form>
+
+</header>
+
+
+<div class="hero">
+
+    <h1>Explore Your World ✨</h1>
+
+    <p>
+        Discover novels, comics, knowledge and exciting stories
+        all in one beautiful place.
+    </p>
+
+</div>
+
+
+<main>
+
+<!-- HOME -->
+
+<section id="home" class="tab-content active">
+
+    <h2 class="section-title">Featured</h2>
+
+    <div class="cards">
+
+        <a href="https://www.google.com/search?q=trending+books&oq=trending+books&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQABiABDIHCAIQABiABDIHCAMQABiABDIHCAQQABiABDIHCAUQABiABDIHCAYQABiABDIHCAcQABiABDIHCAgQABiABDIHCAkQABiABDIHCAoQABiABDIHCAsQABiABDIHCAwQABiABDIHCA0QABiABDIHCA4QABiABNIBCTE3NzI4ajBqN6gCFLACAfEF7VHWLkybpaM&client=ms-android-samsung-rvo1&sourceid=chrome-mobile&source=chrome.ob&ie=UTF-8#lfId=ChxjMe" class="card searchable">
+            <div class="card-icon">
+                <i class="fa-solid fa-fire"></i>
+            </div>
+            <h3>Trending Now</h3>
+            <p>Discover what everyone is reading today.</p>
+        </a>
+
+        <a href="https://www.google.com/search?q=top+book+picks+weekly&client=ms-android-samsung-rvo1&hs=Ty9&sca_esv=02807f850e0d2474&biw=411&bih=815&sxsrf=APpeQntJx8Snn8QZUfS-6LZH8yzwJ5URjA%3A1787415647650&ei=X8yJar_gJpvzi-gP0oqg4Aw&oq=top+book+picks+weekly&gs_lp=EhNtb2JpbGUtZ3dzLXdpei1zZXJwIhV0b3AgYm9vayBwaWNrcyB3ZWVrbHkyBRAAGO8FMgUQABjvBTIFEAAY7wUyBRAAGO8FMgUQABjvBUjBL1DSGFilJXABeAGQAQCYAdMCoAGuDKoBAzMtNbgBA8gBAPgBAZgCBqAC3AzCAgoQABhHGNYEGLADwgIXEC4Y3AYYuAYY2gYY2AIYyAMYsAPYAQHCAgQQIxgnwgIGEAAYCBgewgILEAAYgAQYigUYhgPCAggQABiJBRiiBJgDAIgGAZAGDroGBAgBGBmSBwUxLjMtNaAHvxCyBwMzLTW4B80MwgcFMi00LjLIByqACAE&sclient=mobile-gws-wiz-serp#lfId=ChxjMe" class="card searchable">
+            <div class="card-icon">
+                <i class="fa-solid fa-star"></i>
+            </div>
+            <h3>Top Picks</h3>
+            <p>Hand-picked content you might enjoy.</p>
+        </a>
+
+        <a href="https://www.google.com/search?q=new+releases+books%2Csongs+and+movies&client=ms-android-samsung-rvo1&hs=Wy9&sca_esv=1c4016d4378f206a&sxsrf=APpeQnvgHlr11xfBSoA67su8i9lF2nIFTg%3A1787415819606&ei=C82Jap_DJLWFhbIPqtbfyAc&biw=411&bih=815&oq=new+releases+books%2Csongs+and+movies&gs_lp=EhNtb2JpbGUtZ3dzLXdpei1zZXJwIiNuZXcgcmVsZWFzZXMgYm9va3Msc29uZ3MgYW5kIG1vdmllczIFEAAY7wUyCBAAGIkFGKIEMgUQABjvBTIFEAAY7wUyBRAAGO8FSOlhUIQOWKRScAF4AZABAJgB5AKgAZUqqgEGMi0zLjE0uAEDyAEA-AEBmAISoAK4K8ICChAAGEcY1gQYsAPCAg0QABiABBiKBRhDGLADwgIXEC4Y3AYYuAYY2gYY2AIYyAMYsAPYAQHCAgUQABiABMICBhAAGBYYHsICBRAhGJ8FwgIEECEYFZgDAIgGAZAGDroGBAgBGBmSBwgxLjAuMy4xNKAH2FmyBwYyLTMuMTS4B6srwgcGMi0xMC44yAeeAYAIAQ&sclient=mobile-gws-wiz-serp#lfId=ChxjMe" class="card searchable">
+            <div class="card-icon">
+                <i class="fa-solid fa-bolt"></i>
+            </div>
+            <h3>New Releases</h3>
+            <p>Explore the newest content added.</p>
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- SCHOLAR -->
+
+<section id="scholar" class="tab-content">
+
+    <h2 class="section-title">Scholar</h2>
+
+    <div class="cards">
+
+        <a href="https://www.google.com/search?q=best+mathematics+books+for+O+and+A+level&oq=best+mathematics+books+for+O+and+A+level&gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCTI3NDcyajBqOagCDrACAfEFEvJnSTr6LkzxBRLyZ0k6-i5M&client=ms-android-samsung-rvo1&sourceid=chrome-mobile&source=chrome.ob&ie=UTF-8#lfId=ChxjMe" class="card searchable">
+            <div class="card-icon">
+                <i class="fa-solid fa-book"></i>
+            </div>
+            <h3>Mathematics</h3>
+            <p>Learn mathematics from beginner to advanced.</p>
+        </a>
+
+        <a href="https://www.google.com/search?q=best+sciences+books&oq=best+sciences+books&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIICAEQABgWGB4yCAgCEAAYFhgeMggIAxAAGBYYHjIICAQQABgWGB4yCAgFEAAYFhgeMggIBhAAGBYYHjIICAcQABgWGB4yCAgIEAAYFhgeMggICRAAGBYYHjIICAoQABgWGB4yCAgLEAAYFhgeMggIDBAAGBYYHjIICA0QABgWGB4yCAgOEAAYFhge0gEJMTUzODZqMGo5qAIOsAIB8QV8JwwfhqbMP_EFfCcMH4amzD8&client=ms-android-samsung-rvo1&sourceid=chrome-mobile&source=chrome.ob&ie=UTF-8#lfId=ChxjMe" class="card searchable">
+            <div class="card-icon">
+                <i class="fa-solid fa-flask"></i>
+            </div>
+            <h3>Science</h3>
+            <p>Explore physics, chemistry and biology.</p>
+        </a>
+
+        <a href="https://www.google.com/search?q=best+books+for+programming&oq=best+books+for+pragrammi&gs_lcrp=EgZjaHJvbWUqCQgBEAAYDRiABDIGCAAQRRg5MgkIARAAGA0YgAQyCQgCEAAYDRiABDIICAMQABgNGB4yCAgEEAAYDRgeMggIBRAAGA0YHjIICAYQABgNGB4yCAgHEAAYDRgeMggICBAAGA0YHjIICAkQABgNGB4yCAgKEAAYDRgeMggICxAAGA0YHjIKCAwQABgIGA0YHjIKCA0QABgIGA0YHjIKCA4QABgIGA0YHtIBCTEyNjk0ajBqOagCDrACAfEFjlBDHXzf_AnxBY5QQx183_wJ&client=ms-android-samsung-rvo1&sourceid=chrome-mobile&source=chrome.ob&ie=UTF-8#lfId=ChxjMe" class="card searchable">
+            <div class="card-icon">
+                <i class="fa-solid fa-code"></i>
+            </div>
+            <h3>Programming</h3>
+            <p>Learn coding and modern technology.</p>
+        </a>
+        <a href="https://www.cemo.ug/details.php?id=69031" class="card searchable">
+            <div class="card-icon">
+                <i class="fa-solid fa-book"></i>
+            </div>
+            <h3>Curriculum Studies</h3>
+            <p>Get notes for the Ugandan New Curriculum</p>
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- COMICS -->
+
+<section id="comics" class="tab-content">
+
+    <h2 class="section-title">Comics</h2>
+
+    <div class="cards">
+
+        <a href="https://www.google.com/search?q=best+superhero+comics&oq=best+superhero+com&gs_lcrp=EgZjaHJvbWUqBwgBEAAYgAQyDAgAEAAYFBiHAhiABDIHCAEQABiABDIMCAIQABgUGIcCGIAEMgcIAxAAGIAEMgYIBBBFGDkyBwgFEAAYgAQyBwgGEAAYgAQyBwgHEAAYgAQyBwgIEAAYgAQyBwgJEAAYgAQyBwgKEAAYgAQyBwgLEAAYgAQyBwgMEAAYgAQyBwgNEAAYgAQyBwgOEAAYgATSAQkxMTQyNWowajmoAg6wAgHxBbVeeEMfE4yN8QW1XnhDHxOMjQ&client=ms-android-samsung-rvo1&sourceid=chrome-mobile&source=chrome.ob&ie=UTF-8#lfId=ChxjMe" class="card searchable">
+            <div class="card-icon">
+                <i class="fa-solid fa-mask"></i>
+            </div>
+            <h3>Super Heroes</h3>
+            <p>Enter worlds filled with heroes and villains.</p>
+        </a>
+
+        <a href="https://www.google.com/search?q=best+scifi+comics&client=ms-android-samsung-rvo1&hs=OJpV&sca_esv=1c4016d4378f206a&sxsrf=APpeQnvbYB0m1sdb3KgishbIhh_8f_p_yQ%3A1787416643613&ei=Q9CJap-EJcKA9u8P4szswAs&biw=411&oq=best+scifi+comics&gs_lp=EhNtb2JpbGUtZ3dzLXdpei1zZXJwIhFiZXN0IHNjaWZpIGNvbWljczIIEAAYBxgeGAoyCxAAGIAEGIoFGJECMgkQABiABBgKGAsyCRAAGIAEGAoYCzILEAAYgAQYigUYkQIyCRAAGIAEGAoYCzILEAAYgAQYigUYhgMyCxAAGIAEGIoFGIYDSJhDUOUWWKo4cAF4AJABAJgBrwKgAeYYqgEGMi0xMi4xuAEDyAEA-AEBmAIIoAKHDsICChAAGEcY1gQYsAPCAhcQLhjcBhi4BhjaBhjYAhjIAxiwA9gBAcICBhAAGAcYHsICBxAAGIAEGA3CAgYQABgeGA2YAwCIBgGQBg66BgQIARgZkgcHMS4wLjYuMaAHzWayBwUyLTYuMbgH8Q3CBwcyLTEuNi4xyAddgAgB&sclient=mobile-gws-wiz-serp#lfId=ChxjMe" class="card searchable">
+            <div class="card-icon">
+                <i class="fa-solid fa-rocket"></i>
+            </div>
+            <h3>Sci-Fi</h3>
+            <p>Explore futuristic worlds and technology.</p>
+        </a>
+
+        <a href="https://www.google.com/search?q=best+fantasy+comics&oq=best+fantasy+comic&gs_lcrp=EgZjaHJvbWUqBwgAEAAYgAQyBwgAEAAYgAQyBggBEEUYOTIMCAIQABgUGIcCGIAEMgcIAxAAGIAEMgcIBBAAGIAEMggIBRAAGBYYHjIICAYQABgWGB4yCAgHEAAYFhgeMggICBAAGBYYHjIICAkQABgWGB4yCAgKEAAYFhgeMggICxAAGBYYHjIICAwQABgWGB4yCAgNEAAYFhgeMggIDhAAGBYYHtIBCTEyOTU5ajBqOagCDrACAfEFjhCzY0zopP_xBY4Qs2NM6KT_&client=ms-android-samsung-rvo1&sourceid=chrome-mobile&source=chrome.ob&ie=UTF-8#lfId=ChxjMe" class="card searchable">
+            <div class="card-icon">
+                <i class="fa-solid fa-dragon"></i>
+            </div>
+            <h3>Fantasy</h3>
+            <p>Discover magical worlds and adventures.</p>
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- NOVELS -->
+
+<section id="novels" class="tab-content">
+
+    <h2 class="section-title">Novels</h2>
+
+    <div class="cards">
+
+        <a href="https://www.google.com/search?q=best+romance+novels&oq=best+romance+novels&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQABiABDIHCAIQABiABDIHCAMQABiABDIHCAQQABiABDIHCAUQABiABDIHCAYQABiABDIHCAcQABiABDIHCAgQABiABDIHCAkQABiABDIHCAoQABiABDIHCAsQABiABDIHCAwQABiABDIHCA0QABiABDIHCA4QABiABNIBCTEyNjk2ajBqOagCDrACAfEF8xtJ1VilKeA&client=ms-android-samsung-rvo1&sourceid=chrome-mobile&source=chrome.ob&ie=UTF-8#lfId=ChxjMe" class="card searchable">
+            <div class="card-icon">
+                <i class="fa-solid fa-heart"></i>
+            </div>
+            <h3>Romance</h3>
+            <p>Beautiful stories about relationships and love.</p>
+        </a>
+
+        <a href="https://www.google.com/search?q=time+travel+novels&oq=time+travel+novel&gs_lcrp=EgZjaHJvbWUqDAgAEAAYFBiHAhiABDIMCAAQABgUGIcCGIAEMgYIARBFGDkyBwgCEAAYgAQyBwgDEAAYgAQyBwgEEAAYgAQyBwgFEAAYgAQyBwgGEAAYgAQyDAgHEAAYFBiHAhiABDIHCAgQABiABDIHCAkQABiABDIICAoQABgWGB4yCAgLEAAYFhgeMggIDBAAGBYYHjIICA0QABgWGB4yCAgOEAAYFhge0gEJMTU4NjRqMGo5qAIOsAIB8QV3nxBeujxg2Q&client=ms-android-samsung-rvo1&sourceid=chrome-mobile&source=chrome.ob&ie=UTF-8#lfId=ChxjMe" class="card searchable">
+            <div class="card-icon">
+                <i class="fa-solid fa-clock"></i>
+            </div>
+            <h3>Time Travel</h3>
+            <p>Stories that bend time and reality.</p>
+        </a>
+
+        <a href="https://www.google.com/search?q=mystery+novels&oq=myster&gs_lcrp=EgZjaHJvbWUqDQgAEAAYkQIYgAQYigUyDQgAEAAYkQIYgAQYigUyDwgBEAAYQxixAxiABBiKBTINCAIQABiRAhiABBiKBTIMCAMQLhhDGIAEGIoFMgwIBBAAGEMYgAQYigUyDwgFEAAYQxixAxiABBiKBTIMCAYQABhDGIAEGIoFMgwIBxAAGEMYgAQYigUyDAgIEAAYQxiABBiKBTIHCAkQABiABDIHCAoQLhiABDIGCAsQRRg5MgcIDBAuGIAEMgcIDRAAGIAEMgcIDhAAGIAE0gEINDQzMWowajmoAg6wAgHxBTwvHGopP9sS&client=ms-android-samsung-rvo1&sourceid=chrome-mobile&source=chrome.ob&ie=UTF-8#lfId=ChxjMe" class="card searchable">
+            <div class="card-icon">
+                <i class="fa-solid fa-ghost"></i>
+            </div>
+            <h3>Mystery</h3>
+            <p>Uncover secrets hidden inside mysterious stories.</p>
+        </a>
+
+    </div>
+
+</section>
+
+
+<div class="no-results" id="noResults">
+
+    <i class="fa-solid fa-face-frown"></i>
+
+    <h3>Nothing found</h3>
+
+    <p>Try searching for something else.</p>
+
+</div>
+
+</main>
+
+
+<!-- BOTTOM NAV -->
+
+<nav class="bottom-nav">
+
+    <button class="nav-btn active"
+    onclick="openTab('home',this)">
+
+        <i class="fa-solid fa-house"></i>
+        <span>Home</span>
+
+    </button>
+
+
+    <button class="nav-btn"
+    onclick="openTab('scholar',this)">
+
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span>Scholar</span>
+
+    </button>
+
+
+    <button class="nav-btn"
+    onclick="openTab('comics',this)">
+
+        <i class="fa-solid fa-book-open"></i>
+        <span>Comics</span>
+
+    </button>
+
+
+    <button class="nav-btn"
+    onclick="openTab('novels',this)">
+
+        <i class="fa-solid fa-book"></i>
+        <span>Novels</span>
+
+    </button>
+
+</nav>
+
+
+<script>
+
+/* TAB SYSTEM */
+
+function openTab(tabName, button){
+
+    let tabs = document.querySelectorAll(".tab-content");
+
+    tabs.forEach(tab => {
+        tab.classList.remove("active");
+    });
+
+    document.getElementById(tabName).classList.add("active");
+
+
+    let buttons = document.querySelectorAll(".nav-btn");
+
+    buttons.forEach(btn => {
+        btn.classList.remove("active");
+    });
+
+    button.classList.add("active");
+
+    /* Scroll to top */
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+/* SEARCH SYSTEM */
+
+function searchContent(){
+
+    let input =
+    document.getElementById("search")
+    .value
+    .toLowerCase()
+    .trim();
+
+    let cards =
+    document.querySelectorAll(".searchable");
+
+    let found = 0;
+
+    cards.forEach(card => {
+
+        let text =
+        card.innerText.toLowerCase();
+
+        if(text.includes(input)){
+
+            card.style.display="block";
+            found++;
+
+        }else{
+
+            card.style.display="none";
+
+        }
+
+    });
+
+
+    let noResults =
+    document.getElementById("noResults");
+
+    if(input !== "" && found === 0){
+
+        noResults.style.display="block";
+
+    }else{
+
+        noResults.style.display="none";
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
